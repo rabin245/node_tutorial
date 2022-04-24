@@ -8,5 +8,8 @@
   "author": "",
   "license": "ISC",
   "keywords": [],
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "underscore": "^1.13.3"
+  }
 }
