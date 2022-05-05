@@ -10,7 +10,6 @@
   "keywords": [],
   "description": "",
   "dependencies": {
-    "mongoose": "^6.3.2",
     "underscore": "^1.13.3"
   },
   "devDependencies": {
