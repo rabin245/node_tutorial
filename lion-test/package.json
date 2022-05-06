@@ -1,5 +1,5 @@
 {
-  "name": "lion-lib-696923",
+  "name": "lion-test",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,5 +8,8 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "lion-lib-696923": "^1.0.0"
+  }
 }
