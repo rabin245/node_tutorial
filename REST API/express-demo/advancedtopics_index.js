@@ -1,3 +1,4 @@
+const config = require("config");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const Joi = require("joi");
@@ -6,8 +7,8 @@ const express = require("express");
 const app = express();
 
 // export NODE_ENV=production | development
-console.log(`NODE_ENV: ${process.env.NODE_ENV}`); // NODE_ENV: undefined
-console.log(`app: ${app.get("env")}`); // app: development
+// console.log(`NODE_ENV: ${process.env.NODE_ENV}`); // NODE_ENV: undefined
+// console.log(`app: ${app.get("env")}`); // app: development
 
 // middlewares
 app.use(express.json());
@@ -15,6 +16,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.use(helmet());
+
+// Configuration based on the environment
+console.log("Application Name: " + config.get("name"));
+console.log("Mail Server: " + config.get("mail.host"));
+// from environment variable
+// export app_password=1234
+console.log("Mail Password: " + config.get("mail.password"));
 
 // only enable morgan in dev environment
 if (app.get("env") === "development") {
