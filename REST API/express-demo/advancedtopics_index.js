@@ -5,12 +5,22 @@ const { log, authenticate } = require("./logger");
 const express = require("express");
 const app = express();
 
+// export NODE_ENV=production | development
+console.log(`NODE_ENV: ${process.env.NODE_ENV}`); // NODE_ENV: undefined
+console.log(`app: ${app.get("env")}`); // app: development
+
+// middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.use(helmet());
-app.use(morgan("dev")); // GET /api/courses 200 5.761 ms - 79
+
+// only enable morgan in dev environment
+if (app.get("env") === "development") {
+  app.use(morgan("dev")); // GET /api/courses 200 5.761 ms - 79
+  console.log("Morgan enabled...");
+}
 
 // custom middleware
 app.use(log);
