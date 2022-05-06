@@ -1,3 +1,5 @@
+const morgan = require("morgan");
+const helmet = require("helmet");
 const Joi = require("joi");
 const { log, authenticate } = require("./logger");
 const express = require("express");
@@ -6,6 +8,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+app.use(helmet());
+app.use(morgan("dev")); // GET /api/courses 200 5.761 ms - 79
 
 // custom middleware
 app.use(log);
