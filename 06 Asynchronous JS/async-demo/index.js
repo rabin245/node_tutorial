@@ -1,10 +1,9 @@
 console.log("Before");
 getUser(1, (user) => {
-  console.log("User", user);
-
-  // get the repos
   getRepositories(user.gitHubUsername, (repos) => {
-    console.log("Repos", repos);
+    getCommits(repo, (commits) => {
+      // callback hell
+    });
   });
 });
 console.log("After");
