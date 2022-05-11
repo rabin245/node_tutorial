@@ -27,11 +27,16 @@ async function createCourse() {
 }
 
 async function getCourses() {
+  const pageNumber = 1;
+  const pageSize = 10;
+  // /api/courses?pageNumber=1&pageSize=10
+
   const courses = await Course.find({ author: "Late", isPublished: true })
-    .limit(10)
+    .limit(pageSize)
+    .skip((pageNumber - 1) * pageSize) // pagination starts from 0
     .sort({ name: 1 })
-    .count();
-  console.log(courses); // returns the count of mathcing documents
+    .select({ name: 1, tags: 1 });
+  console.log(courses);
 }
 
 // createCourse();
