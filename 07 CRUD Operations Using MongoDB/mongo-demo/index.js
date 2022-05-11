@@ -43,13 +43,25 @@ async function getCourse() {
 
   const courses = await Course
     // .find({ author: "Late", isPublished: true })
+
     // comparison operators
     // .find({ price: { $gt: 10 } }) // greater than 10
     // .find({ price: { $gte: 10, $lte: 20 } }) // greater-equal to 10 and less-eqaul to 20
     // .find({ price: { $in: [10, 15, 20] } }) // price equal to 10 or 15 or 20
+
     // logical operators
-    .find()
-    .or([{ author: "Late" }, { isPublished: true }])
+    // .find()
+    // .or([{ author: "Late" }, { isPublished: true }])
+
+    // starts with 'Lat'
+    .find({ author: /^Lat/ })
+    // ends with 'ate'
+    .find({ author: /ate$/ }) //case sensitive
+    .find({ author: /ate$/i }) //case insensitive
+
+    // contains 'at'
+    .find({ author: /.*at.*/i })
+
     .limit(10)
     .sort({ name: 1 }) // 1=>ascending order, -1=>descending order
     .select({ name: 1, tags: 1 });
