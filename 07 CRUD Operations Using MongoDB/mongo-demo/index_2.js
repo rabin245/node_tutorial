@@ -39,5 +39,26 @@ async function getCourses() {
   console.log(courses);
 }
 
-// createCourse();
-getCourses();
+async function updateCourse(id) {
+  // Approach: Query first
+  // findById()
+  // Modify its properties
+  // save()
+
+  const course = await Course.findById("627bc19d44529451a832e18a");
+  if (!course) {
+    console.log("course not found");
+    return;
+  }
+
+  course.isPublished = true;
+  course.author = "Another Author";
+  // course.set({
+  //   isPublished: true,
+  //   author: "Another Author",
+  // });
+  const result = await course.save();
+  console.log(result);
+}
+
+updateCourse("5a6900fff467be65019a9001");
