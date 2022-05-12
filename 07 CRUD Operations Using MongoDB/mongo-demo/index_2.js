@@ -1,25 +1,28 @@
 const mongoose = require("mongoose");
 
 mongoose
-  .connect("mongodb://localhost/playground")
-  .then(() => console.log("Connected to MongoDB..."))
-  .catch((err) => console.error("Could not connect to MongoDB...", err));
+  .connect("mongodb://localhost/mongo-exercises")
+  .then(() => console.log("Connected to db successfully..."))
+  .catch((err) => console.error("Connection to db failed...", err));
 
 const courseSchema = new mongoose.Schema({
-  name: String,
-  author: String,
   tags: [String],
   date: { type: Date, default: Date.now },
+  name: String,
+  author: String,
   isPublished: Boolean,
+  price: Number,
 });
 
 const Course = mongoose.model("Course", courseSchema);
+
 async function createCourse() {
   const course = new Course({
-    name: "Angular Course",
+    name: "Test Course",
     author: "Late",
     tags: ["angular", "frontend"],
     isPublished: true,
+    price: 69,
   });
 
   const result = await course.save();
@@ -39,13 +42,13 @@ async function getCourses() {
   console.log(courses);
 }
 
-async function updateCourse(id) {
+async function updateCourseQueryFirst(id) {
   // Approach: Query first
   // findById()
   // Modify its properties
   // save()
 
-  const course = await Course.findById("627bc19d44529451a832e18a");
+  const course = await Course.findById(id);
   if (!course) {
     console.log("course not found");
     return;
@@ -60,5 +63,40 @@ async function updateCourse(id) {
   const result = await course.save();
   console.log(result);
 }
+async function updateCourseUpdate(id) {
+  // Approach: Update first
+  // Update firectly
+  // Optionally: get the updated document
 
-updateCourse("5a6900fff467be65019a9001");
+  const result = await Course.updateOne(
+    { _id: id },
+    {
+      $set: {
+        author: "Late6002",
+        isPublished: false,
+      },
+    }
+  );
+  // .updateOne({ _id: id }, { author: "Late another", isPublished: true });
+
+  console.log(result);
+}
+
+async function updateCourseFindandUpdate(id) {
+  const course = await Course.findByIdAndUpdate(
+    id,
+    {
+      $set: {
+        author: "Late6002 late",
+        isPublished: true,
+      },
+    },
+    { new: true } // without new option, above query returns old document before updating
+  );
+
+  console.log(course);
+}
+
+// updateCourseQueryFirst("627d37c1f906da2779a9b4e5");
+// updateCourseUpdate("627d37c1f906da2779a9b4e5");
+updateCourseFindandUpdate("627d37c1f906da2779a9b4e5");
