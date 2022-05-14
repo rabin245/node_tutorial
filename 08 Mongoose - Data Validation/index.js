@@ -19,7 +19,15 @@ const courseSchema = new mongoose.Schema({
     enum: ["web", "mobile", "network"],
   },
   author: String,
-  tags: [String],
+  tags: {
+    type: Array,
+    validate: {
+      validator: function (v) {
+        return v && v.lenth > 0;
+      },
+      message: "A course should atleast have one tag",
+    },
+  },
   date: { type: Date, default: Date.now },
   isPublished: Boolean,
   price: {
@@ -37,11 +45,11 @@ const Course = mongoose.model("Course", courseSchema);
 async function createCourse() {
   const course = new Course({
     name: "Test Course",
-    category: "-",
+    category: "web",
     author: "Late",
-    tags: ["angular", "frontend"],
+    tags: null,
     isPublished: true,
-    price: 469,
+    price: 69,
   });
 
   try {
