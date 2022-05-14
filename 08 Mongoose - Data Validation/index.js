@@ -17,6 +17,9 @@ const courseSchema = new mongoose.Schema({
     type: String,
     required: true,
     enum: ["web", "mobile", "network"],
+    lowercase: true,
+    // uppercase: true,
+    trim: true,
   },
   author: String,
   tags: {
@@ -34,7 +37,7 @@ const courseSchema = new mongoose.Schema({
             // do some async work
             const result = v && v.length > 0;
             resolve(result);
-          }, 4000);
+          }, 3000);
         }),
       message: "A course should at least have one tag",
     },
@@ -48,6 +51,8 @@ const courseSchema = new mongoose.Schema({
     },
     min: 10,
     max: 200,
+    get: (v) => Math.round(v),
+    set: (v) => Math.round(v),
   },
 });
 
@@ -56,11 +61,11 @@ const Course = mongoose.model("Course", courseSchema);
 async function createCourse() {
   const course = new Course({
     name: "Test Course",
-    category: "web",
+    category: " WEB  ",
     author: "Late",
     tags: ["test"],
     isPublished: true,
-    price: 69,
+    price: 69.7,
   });
 
   try {
@@ -72,15 +77,11 @@ async function createCourse() {
 }
 
 async function getCourses() {
-  const pageNumber = 1;
-  const pageSize = 10;
-
-  const courses = await Course.find({ author: "Late", isPublished: true })
-    .limit(pageSize)
-    .skip((pageNumber - 1) * pageSize)
+  const courses = await Course.find({ _id: "627fca0d7e4f9695b21bc420" })
     .sort({ name: 1 })
-    .select({ name: 1, tags: 1 });
-  console.log(courses);
+    .select({ name: 1, tags: 1, date: 1, price: 1 });
+  // console.log(courses);
+  console.log(courses[0].price); // testing getter for price
 }
 
 async function updateCourseQueryFirst(id) {
@@ -124,4 +125,5 @@ async function updateCourseFindandUpdate(id) {
   console.log(course);
 }
 
-createCourse();
+// createCourse();
+getCourses();
