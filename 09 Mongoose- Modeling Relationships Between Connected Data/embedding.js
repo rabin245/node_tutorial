@@ -17,14 +17,14 @@ const Course = mongoose.model(
   "Course",
   new mongoose.Schema({
     name: String,
-    author: { type: authorSchema, required: true },
+    authors: [authorSchema],
   })
 );
 
-async function createCourse(name, author) {
+async function createCourse(name, authors) {
   const course = new Course({
     name,
-    author,
+    authors,
   });
 
   const result = await course.save();
@@ -36,26 +36,46 @@ async function listCourses() {
   console.log(courses);
 }
 
-async function updateAuthor(courseId) {
+async function addAuthor(courseId, author) {
   const course = await Course.findById(courseId);
-
-  course.author.name = "Late Updated";
+  course.authors.push(author);
   course.save();
 }
-async function updateAuthor1(courseId) {
-  const course = await Course.updateOne(
-    { _id: courseId },
-    {
-      $set: {
-        "author.name": "Jonny Sins",
-      },
-      //   $unset: {
-      //     "author": "",
-      //   },
-    }
-  );
+
+async function removeAuthor(courseId, authorId) {
+  const course = await Course.findById(courseId);
+  const author = course.authors.id(authorId);
+  author.remove();
+  course.save();
 }
 
-// createCourse("Node Course", new Author({ name: "Late6002" }));
+// createCourse("Node Course", [
+//   new Author({ name: "Late6002" }),
+//   new Author({ name: "Late6002second" }),
+// ]);
+
+// addAuthor("6280d4f130e170ee69c761f0", new Author({ name: "Add author" }));
+
+removeAuthor("6280d4f130e170ee69c761f0", "6280d5290dc2b46600a77d0b");
+
+// async function updateAuthor(courseId) {
+//   const course = await Course.findById(courseId);
+
+//   course.author.name = "Late Updated";
+//   course.save();
+// }
+// async function updateAuthor1(courseId) {
+//   const course = await Course.updateOne(
+//     { _id: courseId },
+//     {
+//       $set: {
+//         "author.name": "Jonny Sins",
+//       },
+//       //   $unset: {
+//       //     "author": "",
+//       //   },
+//     }
+//   );
+// }
 // updateAuthor("6280c17a8666726baf5705d3");
-updateAuthor1("6280c17a8666726baf5705d3");
+// updateAuthor1("6280c17a8666726baf5705d3");
