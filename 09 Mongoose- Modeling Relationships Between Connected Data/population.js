@@ -47,12 +47,14 @@ async function createCourse(name, author) {
 }
 
 async function listCourses() {
-  const course = await Course.find().select("name");
+  const course = await Course.find()
+    .populate("author") // populates the author property (displays the specified author object)
+    .select("name author"); // select doesnot display the author object, only displays id
   console.log(course);
 }
 
 // createAuthor("Late", "My bio", "My website");
 
-createCourse("Node Course", "6280ba35ade38612f600e7ea");
+// createCourse("Node Course", "6280ba35ade38612f600e7ea");
 
-// listCourses()
+listCourses();
