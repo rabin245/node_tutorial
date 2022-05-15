@@ -48,7 +48,8 @@ async function createCourse(name, author) {
 
 async function listCourses() {
   const course = await Course.find()
-    .populate("author") // populates the author property (displays the specified author object)
+    .populate("author", "name website -_id") // populates the author property (displays the specified author object)
+    // .populate("category", "name") // populating multiple properties
     .select("name author"); // select doesnot display the author object, only displays id
   console.log(course);
 }
