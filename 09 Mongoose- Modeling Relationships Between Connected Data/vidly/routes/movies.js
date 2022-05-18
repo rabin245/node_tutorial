@@ -51,6 +51,7 @@ router.put("/:id", async (req, res) => {
     },
     { new: true }
   );
+  if (!movies) return res.status(404).send("Movie with given id not found");
 
   res.send(movie);
 });
@@ -60,14 +61,14 @@ router.get("/:id", async (req, res) => {
     .sort("name")
     .limit(10)
     .select("title genre.name numberInStock");
-  if (!movies) return res.status(400).send("Invalid movie id");
+  if (!movies) return res.status(404).send("Movie with given id not found");
 
   res.send(movies);
 });
 
 router.delete("/:id", async (req, res) => {
   const movie = await Movie.findByIdAndDelete(req.params.id);
-  if (!movie) return res.status(400).send("Invalid movie id");
+  if (!movie) return res.status(404).send("Movie with given id not found");
 
   res.send(movie);
 });
