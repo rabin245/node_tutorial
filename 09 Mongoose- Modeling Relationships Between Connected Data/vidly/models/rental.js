@@ -1,5 +1,5 @@
 const Joi = require("joi");
-Joi.objectId = require("joi-objectid")(Joi);
+// Joi.objectId = require("joi-objectid")(Joi); // move to index.js
 const mongoose = require("mongoose");
 
 const Rental = mongoose.model(
