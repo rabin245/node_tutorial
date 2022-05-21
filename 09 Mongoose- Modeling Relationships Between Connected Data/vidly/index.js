@@ -7,7 +7,7 @@ const express = require("express");
 const app = express();
 
 mongoose
-  .connect("mongodb://localhost/vidly")
+  .connect("mongodb://localhost:27047/vidly")
   .then(() => console.log("connected to mongodb..."))
   .catch((err) => console.error("could not connect to mongodb..."));
 
