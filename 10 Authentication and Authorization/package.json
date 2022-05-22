@@ -1,0 +1,18 @@
+{
+  "name": "09-mongoose--modeling-relationships-between-connected-data",
+  "version": "1.0.0",
+  "description": "",
+  "main": "population.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "joi": "^17.6.0",
+    "joi-objectid": "^4.0.2",
+    "mongoose": "^6.3.3"
+  }
+}
