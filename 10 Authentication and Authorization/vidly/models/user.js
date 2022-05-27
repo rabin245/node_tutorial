@@ -24,9 +24,13 @@ const userSchema = new mongoose.Schema({
     minlength: 8,
     maxlength: 1024,
   },
+  isAdmin: Boolean,
 });
 userSchema.methods.generateAuthToken = function () {
-  const token = jwt.sign({ _id: this._id }, config.get("jwtPrivateKey")); // export vidly_jwtPrivateKey=mySecureKey
+  const token = jwt.sign(
+    { _id: this._id, isAdmin: this.isAdmin },
+    config.get("jwtPrivateKey")
+  ); // export vidly_jwtPrivateKey=mySecureKey
   return token;
 };
 
