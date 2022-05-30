@@ -1,5 +1,6 @@
 require("express-async-errors");
 const winston = require("winston");
+require("winston-mongodb");
 const error = require("./middleware/error");
 const config = require("config");
 const Joi = require("joi");
@@ -15,6 +16,12 @@ const express = require("express");
 const app = express();
 
 winston.add(new winston.transports.File({ filename: "logfile.log" }));
+winston.add(
+  new winston.transports.MongoDB({
+    db: "mongodb://localhost:27047/vidly", // in real world apps, seperate operational db and logging db
+    level: "info",
+  })
+);
 
 // export vidly_jwtPrivateKey=mySecureKey
 if (!config.get("jwtPrivateKey")) {
