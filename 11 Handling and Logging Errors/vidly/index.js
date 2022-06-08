@@ -15,13 +15,21 @@ const auth = require("./routes/auth");
 const express = require("express");
 const app = express();
 
+process.on("uncaughtException", (ex) => {
+  console.log("we got an uncaught exception");
+  winston.error(ex.message, ex);
+});
+
 winston.add(new winston.transports.File({ filename: "logfile.log" }));
 winston.add(
   new winston.transports.MongoDB({
     db: "mongodb://localhost:27047/vidly", // in real world apps, seperate operational db and logging db
+    options: { useNewUrlParser: true },
     level: "info",
   })
 );
+
+throw new Error("Something failed during startup.");
 
 // export vidly_jwtPrivateKey=mySecureKey
 if (!config.get("jwtPrivateKey")) {
@@ -30,7 +38,10 @@ if (!config.get("jwtPrivateKey")) {
 }
 
 mongoose
-  .connect("mongodb://localhost:27047/vidly")
+  .connect("mongodb://localhost:27047/vidly", {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+  })
   .then(() => console.log("connected to mongodb..."))
   .catch((err) => console.error("could not connect to mongodb..."));
 
